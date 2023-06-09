@@ -26,6 +26,7 @@ jobs:
         activate-environment: test
         channels: conda-forge,bioconda,defaults
         channel-priority: flexible
+        use-only-tar-bz2: true
     - name: Conda info
       run: |
         conda info
