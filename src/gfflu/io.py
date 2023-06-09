@@ -67,7 +67,7 @@ def read_gff(gff: Path) -> Optional[SeqRecord]:
     return recs[0]
 
 
-def write_gff(gff_recs: List[SeqRecord], out_file: os.PathLike[str]) -> None:
+def write_gff(gff_recs: List[SeqRecord], out_file: os.PathLike) -> None:
     """Write out GFF file"""
     with open(out_file, "w") as out_handle:
         GFF.write(gff_recs, out_handle)
