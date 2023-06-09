@@ -62,7 +62,7 @@ def run_annotation(fasta: Path, outdir: Path) -> SeqRecord:
     return gffrec
 
 
-def merge_subfeatures_by_gene(features: list[SeqFeature]) -> list[SeqFeature]:
+def merge_subfeatures_by_gene(features: List[SeqFeature]) -> List[SeqFeature]:
     """Merge subfeatures by gene
 
     For example, if there are two CDS features for PB1, merge them into one CDS feature.
@@ -135,7 +135,7 @@ def add_qualifiers(feature: SeqFeature, gene: str, ftype: str, product: str) -> 
         feature.qualifiers["product"] = [product]
 
 
-def reannotate_rec(rec: SeqRecord, top_features: list[SeqFeature]) -> None:
+def reannotate_rec(rec: SeqRecord, top_features: List[SeqFeature]) -> None:
     """Reannotate SeqRecord with top features
 
     This function is used to reannotate a SeqRecord with the top features,
@@ -181,8 +181,8 @@ def reannotate_rec(rec: SeqRecord, top_features: list[SeqFeature]) -> None:
 
 def select_top_scoring_features_by_gene(
     gene_features: Mapping[Tuple[str, str, str], List[Tuple[int, SeqFeature]]]
-) -> list[SeqFeature]:
-    top_features: list[SeqFeature] = []
+) -> List[SeqFeature]:
+    top_features: List[SeqFeature] = []
     for features in gene_features.values():
         features.sort(key=itemgetter(0), reverse=True)
         top_feature: SeqFeature = features[0][1]

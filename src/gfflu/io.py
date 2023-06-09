@@ -1,7 +1,7 @@
 import logging
 import os
 from pathlib import Path
-from typing import Iterable, Optional
+from typing import Iterable, List, Optional
 
 from BCBio import GFF
 from Bio import SeqIO
@@ -39,7 +39,7 @@ def flatten_features(rec: SeqRecord) -> SeqRecord:
                 out.append(curf)
                 if not hasattr(curf, "sub_features"):
                     continue
-                sub_features: Optional[list[SeqFeature]] = curf.sub_features
+                sub_features: Optional[List[SeqFeature]] = curf.sub_features
                 if sub_features:
                     for subf in sub_features:
                         if subf.type == "CDS":
@@ -67,7 +67,7 @@ def read_gff(gff: Path) -> Optional[SeqRecord]:
     return recs[0]
 
 
-def write_gff(gff_recs: list[SeqRecord], out_file: os.PathLike[str]) -> None:
+def write_gff(gff_recs: List[SeqRecord], out_file: os.PathLike[str]) -> None:
     """Write out GFF file"""
     with open(out_file, "w") as out_handle:
         GFF.write(gff_recs, out_handle)
