@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
     strategy:
       matrix:
         python-version: ["3.8", "3.9", "3.10", "3.11"]
@@ -19,12 +22,10 @@ jobs:
       uses: conda-incubator/setup-miniconda@v2
       with:
         python-version: ${{ matrix.python-version }}
-        miniforge-variant: Mambaforge
-        miniforge-version: latest
-        activate-environment: gfflu
+        mamba-version: "*"
+        activate-environment: test
         channels: conda-forge,bioconda,defaults
         channel-priority: flexible
-        use-mamba: true
     - name: Conda info
       run: |
         conda info
