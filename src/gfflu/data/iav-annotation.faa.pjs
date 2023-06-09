@@ -1,0 +1,22 @@
+{
+  "version": "1.2",
+  "dbname": "iav-annotation.faa",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "iav-annotation.faa",
+  "number-of-letters": 39608,
+  "number-of-sequences": 142,
+  "last-updated": "2023-06-02T16:35:00",
+  "number-of-volumes": 1,
+  "bytes-total": 94901,
+  "bytes-to-cache": 40999,
+  "files": [
+    "iav-annotation.faa.pdb",
+    "iav-annotation.faa.phr",
+    "iav-annotation.faa.pin",
+    "iav-annotation.faa.pot",
+    "iav-annotation.faa.psq",
+    "iav-annotation.faa.ptf",
+    "iav-annotation.faa.pto"
+  ]
+}

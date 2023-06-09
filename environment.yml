@@ -1,0 +1,16 @@
+name: gfflu
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - blast
+  - miniprot
+  - python=3.10
+  - pip
+  - pip:
+    - biopython
+    - bcbio-gff
+    - polars
+    - typer
+    - rich
