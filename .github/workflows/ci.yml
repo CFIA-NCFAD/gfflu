@@ -37,7 +37,7 @@ jobs:
         mamba install -y blast miniprot
       if: steps.cache.outputs.cache-hit != 'true'
     - name: Show Miniprot version
-      run: miniprot -v
+      run: miniprot --version
     - name: Show BLAST version
       run: blastx -version
     - name: Show Python version
