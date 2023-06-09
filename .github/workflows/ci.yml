@@ -21,7 +21,8 @@ jobs:
         python-version: ${{ matrix.python-version }}
         miniforge-variant: Mambaforge
         miniforge-version: latest
-        activate-environment: anaconda-client-env
+        auto-activate-base: true
+        activate-environment: ""
         channels: conda-forge,bioconda,defaults
         channel-priority: flexible
         use-mamba: true
