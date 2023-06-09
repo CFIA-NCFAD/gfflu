@@ -21,8 +21,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
         miniforge-variant: Mambaforge
         miniforge-version: latest
-        auto-activate-base: true
-        activate-environment: ""
+        activate-environment: gfflu
         channels: conda-forge,bioconda,defaults
         channel-priority: flexible
         use-mamba: true
@@ -36,6 +35,14 @@ jobs:
       run: |
         mamba install -y blast miniprot
       if: steps.cache.outputs.cache-hit != 'true'
+    - name: Show Miniprot version
+      run: miniprot -v
+    - name: Show BLAST version
+      run: blastx -version
+    - name: Show Python version
+      run: python --version
+    - name: Show env
+      run: env
     - name: Cache Mamba
       uses: actions/cache@v2
       with:
