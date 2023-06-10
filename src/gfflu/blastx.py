@@ -11,7 +11,11 @@ def run_blastx(outdir: Path, fasta: Path) -> Path:
     """Run BLASTX on FASTA file with Influenza A virus peptide sequences"""
     blastx_out = outdir / fasta.with_suffix(".blastx.tsv").name
     logger.info(f"Running BLASTX on {fasta}")
-    iav_faa = importlib.resources.path("gfflu.data", "iav-annotation.faa")
+    try:
+        iav_faa = importlib.resources.files("gfflu.data").joinpath("iav-annotation.faa")
+    except AttributeError:
+        # to support Python 3.8....
+        iav_faa = Path(__file__).parent.joinpath("data", "iav-annotation.faa")
     command = [
         "blastx",
         "-word_size",
