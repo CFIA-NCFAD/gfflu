@@ -1,3 +1,8 @@
+from pathlib import Path
+
+iav_faa = Path(__file__).parent.joinpath("data", "iav-annotation.faa")
+
+
 class Peptides:
     """Short peptide reference sequences for Influenza A virus.
 
