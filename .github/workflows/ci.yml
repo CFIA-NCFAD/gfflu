@@ -52,37 +52,10 @@ jobs:
       run: |
         mkdir -p ${HOME}/.local/bin/
         ln -s ${HOME}/miniprot-0.11_x64-linux/miniprot ${HOME}/.local/bin/
-#    - name: Setup Mambaforge
-#      uses: conda-incubator/setup-miniconda@v2
-#      with:
-#        python-version: ${{ matrix.python-version }}
-#        mamba-version: "*"
-#        activate-environment: test
-#        channels: conda-forge,bioconda,defaults
-#        channel-priority: flexible
-#        use-only-tar-bz2: true
-#    - name: Conda info
-#      run: |
-#        conda info
-#        conda list
-#        conda config --show-sources
-#        conda config --show
-#    - name: Install Miniprot and BLAST
-#      run: |
-#        mamba install -y blast miniprot
-#      if: steps.cache.outputs.cache-hit != 'true'
     - name: Show Python version
       run: python --version
     - name: Show env
       run: env
-#    - name: Cache Mamba
-#      uses: actions/cache@v2
-#      with:
-#        path: ~/conda_pkgs_dir
-#        key: ${{ runner.os }}-conda-${{ matrix.python-version }}-${{ hashFiles('environment.yml') }}-${{ env.CACHE_NUMBER }}
-#      env:
-#        CACHE_NUMBER: 0
-#      id: cache
     - name: Show BLAST version
       run: blastx -version
     - name: Show Miniprot version
