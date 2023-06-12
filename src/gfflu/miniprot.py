@@ -1,5 +1,3 @@
-import importlib
-import importlib.resources
 import logging
 import subprocess
 from collections import defaultdict
@@ -8,6 +6,8 @@ from typing import List, Mapping, Tuple
 
 from Bio.SeqFeature import SeqFeature
 from Bio.SeqRecord import SeqRecord
+
+from gfflu.peptides import iav_faa
 
 logger = logging.getLogger(__name__)
 
@@ -74,12 +74,11 @@ def run_miniprot(outdir: Path, fasta: Path) -> Path:
     """Run Miniprot on FASTA file with Influenza A virus peptide sequences"""
     miniprot_out = outdir / fasta.with_suffix(".miniprot.gff").name
     logger.info(f"Running Miniprot on {fasta}")
-    iav_faa = importlib.resources.path("gfflu.data", "iav-annotation.faa")
     command = [
         "miniprot",
         "--gff",
         str(fasta.resolve().absolute()),
-        str(iav_faa),
+        str(iav_faa.resolve().absolute()),
     ]
     logger.info(f"Running command: $ {' '.join(command)}")
     subprocess.run(command, shell=False, check=True, stdout=miniprot_out.open("w"))  # noqa: S603

@@ -11,20 +11,56 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, 3.10, 3.11]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
 
     steps:
+    - run: pwd
     - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+    - run: pwd
+    - name: Cache BLAST+
+      uses: actions/cache@v3
       with:
-        python-version: ${{ matrix.python-version }}
-        cache: 'pip'
-        cache-dependency-path: './pyproject.toml'
+          path: ~/ncbi-blast-2.14.0+
+          key: ${{ runner.os }}-blast-${{ env.CACHE_NUMBER }}
+      env:
+          CACHE_NUMBER: 0
+      id: cacheblast
+    - name: Download BLAST+
+      if: steps.cacheblast.outputs.cache-hit != 'true'
+      run: |
+        curl -SLk https://ftp.ncbi.nih.gov/blast/executables/blast+/2.14.0/ncbi-blast-2.14.0+-x64-linux.tar.gz | tar -xvzf - -C ${HOME}/
+    - name: Add BLAST+ to PATH
+      run: |
+        mkdir -p ${HOME}/.local/bin/
+        ln -s ${HOME}/ncbi-blast-2.14.0+/bin/* ${HOME}/.local/bin/
+    - name: Download Miniprot
+      run: |
+        curl -SLk https://github.com/lh3/miniprot/releases/download/v0.11/miniprot-0.11_x64-linux.tar.bz2 | tar -xvjf - -C ${HOME}/
+    - name: Add Miniprot to PATH
+      run: |
+        mkdir -p ${HOME}/.local/bin/
+        ln -s ${HOME}/miniprot-0.11_x64-linux/miniprot ${HOME}/.local/bin/
+    - name: Show Python version
+      run: python --version
+    - name: Show env
+      run: env
+    - name: Show BLAST version
+      run: blastx -version
+    - name: Show Miniprot version
+      run: miniprot --version
+    - name: Cache pip
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ env.CACHE_NUMBER }}-${{ hashFiles('**/pyproject.toml') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-${{ matrix.python-version }}-
+      env:
+        CACHE_NUMBER: 0
+      id: cache-pip
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        python -m pip install hatch
+        python -m pip install --upgrade pip hatch
     - name: Lint with ruff, black and mypy
       run: |
         hatch run lint:all
