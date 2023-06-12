@@ -33,7 +33,7 @@ jobs:
       id: cacheblast
     - name: Add BLAST+ to PATH
       run: |
-        export PATH=$PATH:$(pwd)/ncbi-blast-2.14.0+/bin
+        ln -s $(pwd)/ncbi-blast-2.14.0+/bin/* ${HOME}/.local/bin/
     - name: Download Miniprot
       run: |
         curl -SLk https://github.com/lh3/miniprot/releases/download/v0.11/miniprot-0.11_x64-linux.tar.bz2 | tar -xvjf -
@@ -49,7 +49,7 @@ jobs:
       id: cacheminiprot
     - name: Add Miniprot to PATH
       run: |
-        export PATH=$PATH:$(pwd)/miniprot-0.11_x64-linux
+        ln -s $(pwd)/miniprot-0.11_x64-linux/miniprot ${HOME}/.local/bin/
 #    - name: Setup Mambaforge
 #      uses: conda-incubator/setup-miniconda@v2
 #      with:
