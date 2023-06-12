@@ -18,25 +18,55 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Setup Mambaforge
-      uses: conda-incubator/setup-miniconda@v2
+    - name: Download BLAST+
+      run: |
+        curl -SLk https://ftp.ncbi.nih.gov/blast/executables/blast+/2.14.0/ncbi-blast-2.14.0+-x64-linux.tar.gz | tar -xvzf -
+      if: steps.cacheblast.outputs.cache-hit != 'true'
+    - name: Cache BLAST+
+      uses: actions/cache@v2
       with:
-        python-version: ${{ matrix.python-version }}
-        mamba-version: "*"
-        activate-environment: test
-        channels: conda-forge,bioconda,defaults
-        channel-priority: flexible
-        use-only-tar-bz2: true
-    - name: Conda info
+          path: ncbi-blast-2.14.0+
+          key: ${{ runner.os }}-blast-${{ env.CACHE_NUMBER }}
+      env:
+          CACHE_NUMBER: 0
+      id: cacheblast
+    - name: Add BLAST+ to PATH
       run: |
-        conda info
-        conda list
-        conda config --show-sources
-        conda config --show
-    - name: Install Miniprot and BLAST
+        export PATH=$PATH:$(pwd)/ncbi-blast-2.14.0+/bin
+    - name: Download Miniprot
       run: |
-        mamba install -y blast miniprot
-      if: steps.cache.outputs.cache-hit != 'true'
+        curl -SLk https://github.com/lh3/miniprot/releases/download/v0.11/miniprot-0.11_x64-linux.tar.bz2 | tar -xvjf -
+      if: steps.cacheminiprot.outputs.cache-hit != 'true'
+    - name: Cache Miniprot
+      uses: actions/cache@v2
+      with:
+          path: miniprot-0.11_x64-linux
+          key: ${{ runner.os }}-miniprot-${{ env.CACHE_NUMBER }}
+      env:
+          CACHE_NUMBER: 0
+      id: cacheminiprot
+    - name: Add Miniprot to PATH
+      run: |
+        export PATH=$PATH:$(pwd)/miniprot-0.11_x64-linux
+#    - name: Setup Mambaforge
+#      uses: conda-incubator/setup-miniconda@v2
+#      with:
+#        python-version: ${{ matrix.python-version }}
+#        mamba-version: "*"
+#        activate-environment: test
+#        channels: conda-forge,bioconda,defaults
+#        channel-priority: flexible
+#        use-only-tar-bz2: true
+#    - name: Conda info
+#      run: |
+#        conda info
+#        conda list
+#        conda config --show-sources
+#        conda config --show
+#    - name: Install Miniprot and BLAST
+#      run: |
+#        mamba install -y blast miniprot
+#      if: steps.cache.outputs.cache-hit != 'true'
     - name: Show Miniprot version
       run: miniprot --version
     - name: Show BLAST version
@@ -45,14 +75,14 @@ jobs:
       run: python --version
     - name: Show env
       run: env
-    - name: Cache Mamba
-      uses: actions/cache@v2
-      with:
-        path: ~/conda_pkgs_dir
-        key: ${{ runner.os }}-conda-${{ matrix.python-version }}-${{ hashFiles('environment.yml') }}-${{ env.CACHE_NUMBER }}
-      env:
-        CACHE_NUMBER: 0
-      id: cache
+#    - name: Cache Mamba
+#      uses: actions/cache@v2
+#      with:
+#        path: ~/conda_pkgs_dir
+#        key: ${{ runner.os }}-conda-${{ matrix.python-version }}-${{ hashFiles('environment.yml') }}-${{ env.CACHE_NUMBER }}
+#      env:
+#        CACHE_NUMBER: 0
+#      id: cache
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip hatch
