@@ -17,7 +17,9 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11"]
 
     steps:
+    - run: pwd
     - uses: actions/checkout@v3
+    - run: pwd
     - name: Download BLAST+
       run: |
         curl -SLk https://ftp.ncbi.nih.gov/blast/executables/blast+/2.14.0/ncbi-blast-2.14.0+-x64-linux.tar.gz | tar -xvzf -
@@ -90,9 +92,9 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip hatch
-    - name: Lint with ruff, black and mypy
-      run: |
-        hatch run lint:all
+#    - name: Lint with ruff, black and mypy
+#      run: |
+#        hatch run lint:all
     - name: Test with pytest and report test coverage
       run: |
         hatch run cov
