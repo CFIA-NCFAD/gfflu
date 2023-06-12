@@ -22,13 +22,12 @@ jobs:
     - run: pwd
     - name: Download BLAST+
       run: |
-        curl -SLk https://ftp.ncbi.nih.gov/blast/executables/blast+/2.14.0/ncbi-blast-2.14.0+-x64-linux.tar.gz | tar -xvzf -
-        ncbi-blast-2.14.0+/bin/blastx -version
+        curl -SLk https://ftp.ncbi.nih.gov/blast/executables/blast+/2.14.0/ncbi-blast-2.14.0+-x64-linux.tar.gz | tar -xvzf - -C ${HOME}/
       if: steps.cacheblast.outputs.cache-hit != 'true'
     - name: Cache BLAST+
       uses: actions/cache@v2
       with:
-          path: ncbi-blast-2.14.0+
+          path: /home/runner/ncbi-blast-2.14.0+
           key: ${{ runner.os }}-blast-${{ env.CACHE_NUMBER }}
       env:
           CACHE_NUMBER: 0
@@ -39,13 +38,12 @@ jobs:
         ln -s $(pwd)/ncbi-blast-2.14.0+/bin/* ${HOME}/.local/bin/
     - name: Download Miniprot
       run: |
-        curl -SLk https://github.com/lh3/miniprot/releases/download/v0.11/miniprot-0.11_x64-linux.tar.bz2 | tar -xvjf -
-        miniprot-0.11_x64-linux/miniprot --version
+        curl -SLk https://github.com/lh3/miniprot/releases/download/v0.11/miniprot-0.11_x64-linux.tar.bz2 | tar -xvjf - -C ${HOME}/
       if: steps.cacheminiprot.outputs.cache-hit != 'true'
     - name: Cache Miniprot
       uses: actions/cache@v2
       with:
-          path: miniprot-0.11_x64-linux
+          path: /home/runner/miniprot-0.11_x64-linux
           key: ${{ runner.os }}-miniprot-${{ env.CACHE_NUMBER }}
       env:
           CACHE_NUMBER: 0
@@ -92,9 +90,9 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip hatch
-#    - name: Lint with ruff, black and mypy
-#      run: |
-#        hatch run lint:all
+    - name: Lint with ruff, black and mypy
+      run: |
+        hatch run lint:all
     - name: Test with pytest and report test coverage
       run: |
         hatch run cov
