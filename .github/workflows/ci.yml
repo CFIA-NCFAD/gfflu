@@ -21,6 +21,7 @@ jobs:
     - name: Download BLAST+
       run: |
         curl -SLk https://ftp.ncbi.nih.gov/blast/executables/blast+/2.14.0/ncbi-blast-2.14.0+-x64-linux.tar.gz | tar -xvzf -
+        ncbi-blast-2.14.0+/bin/blastx -version
       if: steps.cacheblast.outputs.cache-hit != 'true'
     - name: Cache BLAST+
       uses: actions/cache@v2
@@ -36,6 +37,7 @@ jobs:
     - name: Download Miniprot
       run: |
         curl -SLk https://github.com/lh3/miniprot/releases/download/v0.11/miniprot-0.11_x64-linux.tar.bz2 | tar -xvjf -
+        miniprot-0.11_x64-linux/miniprot --version
       if: steps.cacheminiprot.outputs.cache-hit != 'true'
     - name: Cache Miniprot
       uses: actions/cache@v2
@@ -67,10 +69,6 @@ jobs:
 #      run: |
 #        mamba install -y blast miniprot
 #      if: steps.cache.outputs.cache-hit != 'true'
-    - name: Show Miniprot version
-      run: miniprot --version
-    - name: Show BLAST version
-      run: blastx -version
     - name: Show Python version
       run: python --version
     - name: Show env
@@ -83,6 +81,10 @@ jobs:
 #      env:
 #        CACHE_NUMBER: 0
 #      id: cache
+    - name: Show BLAST version
+      run: blastx -version
+    - name: Show Miniprot version
+      run: miniprot --version
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip hatch
