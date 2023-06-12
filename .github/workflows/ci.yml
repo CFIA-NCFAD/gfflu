@@ -20,18 +20,18 @@ jobs:
     - run: pwd
     - uses: actions/checkout@v3
     - run: pwd
-    - name: Download BLAST+
-      run: |
-        curl -SLk https://ftp.ncbi.nih.gov/blast/executables/blast+/2.14.0/ncbi-blast-2.14.0+-x64-linux.tar.gz | tar -xvzf - -C ${HOME}/
-      if: steps.cacheblast.outputs.cache-hit != 'true'
     - name: Cache BLAST+
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
-          path: /home/runner/ncbi-blast-2.14.0+
+          path: ~/ncbi-blast-2.14.0+
           key: ${{ runner.os }}-blast-${{ env.CACHE_NUMBER }}
       env:
           CACHE_NUMBER: 0
       id: cacheblast
+    - name: Download BLAST+
+      if: steps.cacheblast.outputs.cache-hit != 'true'
+      run: |
+        curl -SLk https://ftp.ncbi.nih.gov/blast/executables/blast+/2.14.0/ncbi-blast-2.14.0+-x64-linux.tar.gz | tar -xvzf - -C ${HOME}/
     - name: Add BLAST+ to PATH
       run: |
         mkdir -p ${HOME}/.local/bin/
@@ -39,15 +39,6 @@ jobs:
     - name: Download Miniprot
       run: |
         curl -SLk https://github.com/lh3/miniprot/releases/download/v0.11/miniprot-0.11_x64-linux.tar.bz2 | tar -xvjf - -C ${HOME}/
-      if: steps.cacheminiprot.outputs.cache-hit != 'true'
-    - name: Cache Miniprot
-      uses: actions/cache@v2
-      with:
-          path: /home/runner/miniprot-0.11_x64-linux
-          key: ${{ runner.os }}-miniprot-${{ env.CACHE_NUMBER }}
-      env:
-          CACHE_NUMBER: 0
-      id: cacheminiprot
     - name: Add Miniprot to PATH
       run: |
         mkdir -p ${HOME}/.local/bin/
@@ -60,6 +51,16 @@ jobs:
       run: blastx -version
     - name: Show Miniprot version
       run: miniprot --version
+    - name: Cache pip
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ env.CACHE_NUMBER }}-${{ hashFiles('**/pyproject.toml') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-${{ matrix.python-version }}-
+      env:
+        CACHE_NUMBER: 0
+      id: cache-pip
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip hatch
