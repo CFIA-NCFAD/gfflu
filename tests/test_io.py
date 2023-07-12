@@ -12,7 +12,7 @@ datadir = Path(__file__).parent / "data"
 def test_gff_to_genbank():
     input_fasta = datadir / "Segment_4_HA.MH201222.fasta"
     with TemporaryDirectory(prefix="gfflu-") as tmpdir:
-        gffrec = run_annotation(fasta=input_fasta, outdir=Path(tmpdir))
+        gffrec = run_annotation(fasta=input_fasta, outdir=Path(tmpdir), prefix=input_fasta.stem)
         assert gffrec is not None
         assert len(gffrec.features) == 1
         feature_ha = gffrec.features[0]

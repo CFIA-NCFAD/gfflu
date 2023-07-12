@@ -9,7 +9,7 @@ datadir = Path(__file__).parent / "data"
 def test_annotate_seg1():
     input_fasta = datadir / "Segment_1_PB2.MH201221.fasta"
     with TemporaryDirectory(prefix="gfflu-") as tmpdir:
-        gffrec = run_annotation(input_fasta, Path(tmpdir))
+        gffrec = run_annotation(input_fasta, Path(tmpdir), prefix=input_fasta.stem)
         assert len(gffrec.features) == 1
         feature = gffrec.features[0]
         assert feature.type == "gene"
@@ -30,7 +30,7 @@ def test_annotate_seg1():
 def test_annotate_seg2():
     input_fasta = datadir / "Segment_2_PB1.CY147460.fasta"
     with TemporaryDirectory(prefix="gfflu-") as tmpdir:
-        gffrec = run_annotation(input_fasta, Path(tmpdir))
+        gffrec = run_annotation(input_fasta, Path(tmpdir), prefix=input_fasta.stem)
         assert len(gffrec.features) == 2
         feature_pb1 = gffrec.features[0]
         feature_pb1_f2 = gffrec.features[1]
@@ -65,7 +65,7 @@ def test_annotate_seg2():
 def test_annotate_seg3():
     input_fasta = datadir / "Segment_3_PA.CY146806.fasta"
     with TemporaryDirectory(prefix="gfflu-") as tmpdir:
-        gffrec = run_annotation(input_fasta, Path(tmpdir))
+        gffrec = run_annotation(input_fasta, Path(tmpdir), prefix=input_fasta.stem)
         assert len(gffrec.features) == 2
         feature_pa = gffrec.features[0]
         feature_pa_x = gffrec.features[1]
@@ -101,7 +101,7 @@ def test_annotate_seg3():
 def test_annotation_seg4():
     input_fasta = datadir / "Segment_4_HA.MH201222.fasta"
     with TemporaryDirectory(prefix="gfflu-") as tmpdir:
-        gffrec = run_annotation(input_fasta, Path(tmpdir))
+        gffrec = run_annotation(input_fasta, Path(tmpdir), prefix=input_fasta.stem)
         assert len(gffrec.features) == 1
         feature_ha = gffrec.features[0]
         assert feature_ha.type == "gene"
@@ -139,7 +139,7 @@ def test_annotation_seg4():
 def test_annotation_seg5():
     input_fasta = datadir / "Segment_5_NP.MH085254.fasta"
     with TemporaryDirectory(prefix="gfflu-") as tmpdir:
-        gffrec = run_annotation(input_fasta, Path(tmpdir))
+        gffrec = run_annotation(input_fasta, Path(tmpdir), prefix=input_fasta.stem)
         assert len(gffrec.features) == 1
         feature_np = gffrec.features[0]
         assert feature_np.type == "gene"
@@ -160,7 +160,7 @@ def test_annotation_seg5():
 def test_annotation_seg6():
     input_fasta = datadir / "Segment_6_NA.EF190976.fasta"
     with TemporaryDirectory(prefix="gfflu-") as tmpdir:
-        gffrec = run_annotation(input_fasta, Path(tmpdir))
+        gffrec = run_annotation(input_fasta, Path(tmpdir), prefix=input_fasta.stem)
         assert len(gffrec.features) == 1
         feature_na = gffrec.features[0]
         assert feature_na.type == "gene"
@@ -181,7 +181,7 @@ def test_annotation_seg6():
 def test_annotation_seg7():
     input_fasta = datadir / "Segment_7_M.MH085255.fasta"
     with TemporaryDirectory(prefix="gfflu-") as tmpdir:
-        gffrec = run_annotation(input_fasta, Path(tmpdir))
+        gffrec = run_annotation(input_fasta, Path(tmpdir), prefix=input_fasta.stem)
         assert len(gffrec.features) == 2
         feature_m1 = gffrec.features[0]
         assert feature_m1.type == "gene"
@@ -225,7 +225,7 @@ def test_annotation_seg7():
 def test_annotation_seg8():
     input_fasta = datadir / "Segment_8_NS.MH085256.fasta"
     with TemporaryDirectory(prefix="gfflu-") as tmpdir:
-        gffrec = run_annotation(input_fasta, Path(tmpdir))
+        gffrec = run_annotation(input_fasta, Path(tmpdir), prefix=input_fasta.stem)
         assert len(gffrec.features) == 2
         if gffrec.features[0].qualifiers["gene"] == ["NS1"]:
             feature_ns1 = gffrec.features[0]
