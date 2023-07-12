@@ -43,6 +43,7 @@ def main(
     fasta: Path = typer.Argument(..., exists=True, dir_okay=False),
     outdir: Path = typer.Option(Path("gfflu-outdir"), "--outdir", "-o", help="Output directory"),
     force: bool = typer.Option(False, "--force", "-f", is_flag=True),
+    prefix: Optional[str] = typer.Option(None, "--prefix", "-p", help="Output file prefix"),
     verbose: bool = typer.Option(False, "--verbose", "-v", is_flag=True),
     version: Optional[bool] = typer.Option(  # noqa: ARG001
         None,
@@ -65,6 +66,8 @@ def main(
     logger.info(f"Output directory: {outdir}")
     logger.info(f"FASTA file: {fasta}")
     logger.info(f"Overwrite output?: {force}")
+    if prefix:
+        logger.info(f"Output prefix: {prefix}")
     logger.info(f"Verbose?: {verbose}")
     if not outdir.exists():
         outdir.mkdir(parents=True)
@@ -74,15 +77,16 @@ def main(
         logger.error(f"Output directory '{outdir}' exists, exiting")
         raise typer.Exit(1)
 
-    rec = run_annotation(fasta, outdir)
-
-    output_gff = outdir / f"{fasta.with_suffix('.gff').name}"
+    prefix = prefix or fasta.stem
+    rec = run_annotation(fasta, outdir, prefix)
+    output_gff = outdir / f"{prefix}.gff"
 
     logger.info(f"Writing {output_gff}")
     write_gff([rec], output_gff)
-    gbk_path = outdir / f"{fasta.with_suffix('.gbk').name}"
+    gbk_path = outdir / f"{prefix}.gbk"
     logger.info(f"Writing {gbk_path}")
     SeqIO.write(check_gff([rec], "DNA"), gbk_path, "genbank")
+    logger.info("Done!")
 
 
 if __name__ == "__main__":

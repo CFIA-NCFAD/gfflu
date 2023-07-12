@@ -23,16 +23,16 @@ from gfflu.miniprot import (
 logger = logging.getLogger(__name__)
 
 
-def run_annotation(fasta: Path, outdir: Path) -> SeqRecord:
+def run_annotation(fasta: Path, outdir: Path, prefix: str) -> SeqRecord:
     seqrec = read_fasta(fasta)
     if len(seqrec) == 0:
         return seqrec
-    miniprot_gff = run_miniprot(outdir, fasta)
+    miniprot_gff = run_miniprot(outdir, fasta, prefix)
     logger.info(f"Reading {miniprot_gff}")
     gffrec = read_gff(miniprot_gff)
     if gffrec is None or len(gffrec) == 0:
         return seqrec
-    blastx_b6 = run_blastx(outdir, fasta)
+    blastx_b6 = run_blastx(outdir, fasta, prefix)
     gffrec.seq = list(SeqIO.parse(fasta, "fasta"))[0].seq
     # remove annotations so that SnpEff doesn't have any issues with the GFF file
     gffrec.annotations = {}
