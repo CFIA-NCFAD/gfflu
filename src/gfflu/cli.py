@@ -40,9 +40,11 @@ def version_callback(value: bool):
     f"{sys.version_info.micro}"
 )
 def main(
-    fasta: Path = typer.Argument(..., exists=True, dir_okay=False),
+    fasta: Path = typer.Argument(
+        ..., exists=True, dir_okay=False, help="Influenza virus nucleotide sequence FASTA file"
+    ),
     outdir: Path = typer.Option(Path("gfflu-outdir"), "--outdir", "-o", help="Output directory"),
-    force: bool = typer.Option(False, "--force", "-f", is_flag=True),
+    force: bool = typer.Option(False, "--force", "-f", is_flag=True, help="Overwrite existing files"),
     prefix: Optional[str] = typer.Option(None, "--prefix", "-p", help="Output file prefix"),
     verbose: bool = typer.Option(False, "--verbose", "-v", is_flag=True),
     version: Optional[bool] = typer.Option(  # noqa: ARG001
