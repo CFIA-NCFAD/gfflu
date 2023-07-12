@@ -7,9 +7,9 @@ from gfflu.peptides import iav_faa
 logger = logging.getLogger(__name__)
 
 
-def run_blastx(outdir: Path, fasta: Path) -> Path:
+def run_blastx(outdir: Path, fasta: Path, prefix: str) -> Path:
     """Run BLASTX on FASTA file with Influenza A virus peptide sequences"""
-    blastx_out = outdir / fasta.with_suffix(".blastx.tsv").name
+    blastx_out = outdir / f"{prefix}.blastx.tsv"
     logger.info(f"Running BLASTX on {fasta}")
     command = [
         "blastx",

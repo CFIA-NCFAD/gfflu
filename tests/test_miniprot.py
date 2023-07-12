@@ -11,7 +11,7 @@ input_fasta = datadir / "Segment_1_PB2.MH201221.fasta"
 def test_miniprot():
     with TemporaryDirectory(prefix="gfflu_") as tmpdir:
         outdir = Path(tmpdir)
-        miniprot_out = run_miniprot(outdir, input_fasta)
+        miniprot_out = run_miniprot(outdir, input_fasta, input_fasta.stem)
         assert miniprot_out.exists()
         assert miniprot_out.stat().st_size > 0
         assert miniprot_out.name.endswith(".miniprot.gff")

@@ -70,9 +70,9 @@ def get_feature_qualifier_value(feature: SeqFeature, key: str) -> str:
     return feature.qualifiers[key][0]
 
 
-def run_miniprot(outdir: Path, fasta: Path) -> Path:
+def run_miniprot(outdir: Path, fasta: Path, prefix: str) -> Path:
     """Run Miniprot on FASTA file with Influenza A virus peptide sequences"""
-    miniprot_out = outdir / fasta.with_suffix(".miniprot.gff").name
+    miniprot_out = outdir / f"{prefix}.miniprot.gff"
     logger.info(f"Running Miniprot on {fasta}")
     command = [
         "miniprot",
