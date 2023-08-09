@@ -9,7 +9,7 @@ from Bio import SeqIO
 
 from gfflu.__about__ import __version__
 from gfflu.annotation import run_annotation
-from gfflu.io import check_gff, write_gff, write_aa_fasta
+from gfflu.io import check_gff, write_aa_fasta, write_gff
 
 app = typer.Typer()
 

@@ -1,15 +1,14 @@
 import logging
 import os
 from pathlib import Path
+from typing import Iterable, List, Optional, Union
 
 from BCBio import GFF
 from Bio import SeqIO
 from Bio.Seq import Seq
-from Bio.SeqFeature import CompoundLocation, FeatureLocation
+from Bio.SeqFeature import CompoundLocation, FeatureLocation, SeqFeature
 from Bio.SeqIO.InsdcIO import _insdc_location_string
-from Bio.SeqFeature import SeqFeature
 from Bio.SeqRecord import SeqRecord
-from typing import Iterable, List, Optional, Union
 
 logger = logging.getLogger(__name__)
 
@@ -96,16 +95,15 @@ def write_aa_fasta(flat_rec: SeqRecord, prefix: str, out_file: os.PathLike) -> N
                 continue
             translation = get_translation(flat_rec.seq, feature.location)
             try:
-                gene = feature.qualifiers['gene'][0]
+                gene = feature.qualifiers["gene"][0]
             except KeyError:
                 gene = ""
             try:
-                product = feature.qualifiers['product'][0]
+                product = feature.qualifiers["product"][0]
             except KeyError:
                 product = ""
             location_str = _insdc_location_string(location=feature.location, rec_length=len(flat_rec.seq))
-            out_handle.write(
-                f">{prefix}|{feature.type}|{gene}|{location_str} {product}\n{translation}\n")
+            out_handle.write(f">{prefix}|{feature.type}|{gene}|{location_str} {product}\n{translation}\n")
 
 
 def read_gff(gff: Path) -> Optional[SeqRecord]:
