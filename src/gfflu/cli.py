@@ -9,7 +9,7 @@ from Bio import SeqIO
 
 from gfflu.__about__ import __version__
 from gfflu.annotation import run_annotation
-from gfflu.io import check_gff, write_gff
+from gfflu.io import check_gff, write_gff, write_aa_fasta
 
 app = typer.Typer()
 
@@ -88,6 +88,9 @@ def main(
     gbk_path = outdir / f"{prefix}.gbk"
     logger.info(f"Writing {gbk_path}")
     SeqIO.write(check_gff([rec], "DNA"), gbk_path, "genbank")
+    aa_fasta = outdir / f"{prefix}.faa"
+    logger.info(f"Writing amino acid FASTA file '{aa_fasta}'")
+    write_aa_fasta(rec, prefix, aa_fasta)
     logger.info("Done!")
 
 
