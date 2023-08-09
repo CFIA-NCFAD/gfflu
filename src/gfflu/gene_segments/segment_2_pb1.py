@@ -56,7 +56,7 @@ def find_PB1_F2(fasta: Path, blastx: Path) -> Optional[SeqFeature]:
     pb1_f2_start = df_pb1_f2["qstart"][0]
     pb1_f2_start = pb1_f2_start - 1
     pb1_f2_subjectid = df_pb1_f2["subject"][0]
-    seqrec: SeqRecord = list(SeqIO.parse(fasta, "fasta"))[0]
+    seqrec: SeqRecord = next(iter(SeqIO.parse(fasta, "fasta")))
     seq_from_pb1_f2_start = seqrec.seq[pb1_f2_start:]
     pb1_f2_aa = str(seq_from_pb1_f2_start.translate())
     # find the first stop codon and add 1 to get the length of the PB1-F2 protein including stop codon
