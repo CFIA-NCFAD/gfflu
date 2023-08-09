@@ -45,6 +45,7 @@ Produces an output directory `gfflu-outdir/` by default with the following files
 $ tree gfflu-outdir/
 gfflu-outdir/
 ├── Segment_4_HA.MH201222.blastx.tsv
+├── Segment_4_HA.MH201222.faa
 ├── Segment_4_HA.MH201222.gbk
 ├── Segment_4_HA.MH201222.gff
 └── Segment_4_HA.MH201222.miniprot.gff
@@ -57,8 +58,6 @@ gfflu-outdir/
 Help output:
 
 ```console
-$ gfflu --help
-                                                                                                                                                                                                                                        
  Usage: gfflu [OPTIONS] FASTA                                                                                                                                                                                                           
                                                                                                                                                                                                                                         
  Annotate Influenza A virus sequences using Miniprot and BLASTX                                                                                                                                                                         
@@ -66,11 +65,11 @@ $ gfflu --help
  with SnpEff.                                                                                                                                                                                                                           
                                                                                                                                                                                                                                         
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ *    fasta      FILE  [default: None] [required]                                                                                                                                                                                     │
+│ *    fasta      FILE  Influenza virus nucleotide sequence FASTA file [default: None] [required]                                                                                                                                      │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │ --outdir              -o      PATH  Output directory [default: gfflu-outdir]                                                                                                                                                         │
-│ --force               -f                                                                                                                                                                                                             │
+│ --force               -f            Overwrite existing files                                                                                                                                                                         │
 │ --prefix              -p      TEXT  Output file prefix [default: None]                                                                                                                                                               │
 │ --verbose             -v                                                                                                                                                                                                             │
 │ --version             -V            Print 'gfflu version 0.0.2' and exit                                                                                                                                                             │
@@ -79,7 +78,7 @@ $ gfflu --help
 │ --help                              Show this message and exit.                                                                                                                                                                      │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
                                                                                                                                                                                                                                         
- gfflu version 0.0.2; Python 3.10.5
+ gfflu version 0.0.2; Python 3.10.5               
 ```
 
 ## Installation

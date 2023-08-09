@@ -33,7 +33,7 @@ def run_annotation(fasta: Path, outdir: Path, prefix: str) -> SeqRecord:
     if gffrec is None or len(gffrec) == 0:
         return seqrec
     blastx_b6 = run_blastx(outdir, fasta, prefix)
-    gffrec.seq = list(SeqIO.parse(fasta, "fasta"))[0].seq
+    gffrec.seq = next(iter(SeqIO.parse(fasta, "fasta"))).seq
     # remove annotations so that SnpEff doesn't have any issues with the GFF file
     gffrec.annotations = {}
     gene_features = get_features_by_gene(gffrec)
@@ -42,7 +42,7 @@ def run_annotation(fasta: Path, outdir: Path, prefix: str) -> SeqRecord:
     # HA signal peptide is too small for Miniprot to detect
     if any(gene == "HA" for (gene, ftype, product) in gene_features):
         # get CDS feature for HA
-        cds_feature = [x for x in top_features for y in x.sub_features if y.type == "CDS"][0]
+        cds_feature = next(x for x in top_features for y in x.sub_features if y.type == "CDS")
         cds_feature.sub_features.append(find_HA_signal_peptide(seqrec, cds_feature))
     # merge sub_features by gene
     top_features = merge_subfeatures_by_gene(top_features)
