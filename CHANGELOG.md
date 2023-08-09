@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-* Handling of CDS with joins (e.g. `join(24..49,738..1005)` for M2 of MH085255) is now properly combined and translated to amino acid sequence (#1)
+* Handling of CDS with joins (e.g. `join(24..49,738..1005)` for M2 of MH085255) is now properly combined and translated to amino acid sequence (#3)
 
 ### Added
 
