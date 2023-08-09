@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 * Amino acid FASTA output for all CDS and other features that can be translated to peptides (`{outdir}/{prefix}.faa`)
+* `--prefix/-p` CLI option for specifying output file prefix
+
+### Changed
+
+* `peptides.py`: convert ha_signal_peptides and pb1_f2_peptides to tuples instead of list; should not be modified during runtime
 
 ## [0.0.1](https://github.com/CFIA-NCFAD/gfflu/releases/tag/0.0.1) - 2023-06-09
 
