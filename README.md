@@ -2,6 +2,10 @@
 
 [![PyPI - Version](https://img.shields.io/pypi/v/gfflu.svg)](https://pypi.org/project/gfflu)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/gfflu.svg)](https://pypi.org/project/gfflu)
+[![CI](https://github.com/CFIA-NCFAD/gfflu/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/CFIA-NCFAD/gfflu/actions/workflows/ci.yml)
+
+[![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/gfflu/README.html)
+[![](https://img.shields.io/conda/dn/bioconda/gfflu.svg?style=flat)](https://anaconda.org/bioconda/gfflu)
 
 `gfflu` is a Python CLI app to generate annotations of Influenza A virus (IAV) gene segment nucleotide sequences with 
 [BLASTX][] and [Miniprot][]  using the same protein sequences as [Influenza Virus Sequence Annotation Tool][] and 
@@ -41,6 +45,7 @@ Produces an output directory `gfflu-outdir/` by default with the following files
 $ tree gfflu-outdir/
 gfflu-outdir/
 ├── Segment_4_HA.MH201222.blastx.tsv
+├── Segment_4_HA.MH201222.faa
 ├── Segment_4_HA.MH201222.gbk
 ├── Segment_4_HA.MH201222.gff
 └── Segment_4_HA.MH201222.miniprot.gff
@@ -53,32 +58,27 @@ gfflu-outdir/
 Help output:
 
 ```console
-$ gfflu --help
-
- Usage: gfflu [OPTIONS] FASTA
-
- Annotate Influenza A virus sequences using Miniprot and BLASTX
- The Miniprot GFF for a particular reference sequence gene segment will have multiple annotations for the same gene.
- This script will select the top scoring annotation for each gene and write out a new GFF file that can be used with
- SnpEff.
-
-╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ *    fasta      FILE  [default: None] [required]                                                                     │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ Options ────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ --outdir              -o      PATH                             Output directory [default: gfflu-outdir]              │
-│ --force               -f                                                                                             │
-│ --verbose             -v                                                                                             │
-│ --version             -V                                       Print "gfflu version 0.0.1" and exit                  │
-│ --install-completion          [bash|zsh|fish|powershell|pwsh]  Install completion for the specified shell.           │
-│                                                                [default: None]                                       │
-│ --show-completion             [bash|zsh|fish|powershell|pwsh]  Show completion for the specified shell, to copy it   │
-│                                                                or customize the installation.                        │
-│                                                                [default: None]                                       │
-│ --help                                                         Show this message and exit.                           │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-
- gfflu version 0.0.1; Python 3.10.5
+ Usage: gfflu [OPTIONS] FASTA                                                                                                                                                                                                           
+                                                                                                                                                                                                                                        
+ Annotate Influenza A virus sequences using Miniprot and BLASTX                                                                                                                                                                         
+ The Miniprot GFF for a particular reference sequence gene segment will have multiple annotations for the same gene. This script will select the top scoring annotation for each gene and write out a new GFF file that can be used     
+ with SnpEff.                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                        
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ *    fasta      FILE  Influenza virus nucleotide sequence FASTA file [default: None] [required]                                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ --outdir              -o      PATH  Output directory [default: gfflu-outdir]                                                                                                                                                         │
+│ --force               -f            Overwrite existing files                                                                                                                                                                         │
+│ --prefix              -p      TEXT  Output file prefix [default: None]                                                                                                                                                               │
+│ --verbose             -v                                                                                                                                                                                                             │
+│ --version             -V            Print 'gfflu version 0.0.2' and exit                                                                                                                                                             │
+│ --install-completion                Install completion for the current shell.                                                                                                                                                        │
+│ --show-completion                   Show completion for the current shell, to copy it or customize the installation.                                                                                                                 │
+│ --help                              Show this message and exit.                                                                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                                                        
+ gfflu version 0.0.2; Python 3.10.5               
 ```
 
 ## Installation
